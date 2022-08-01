@@ -1,3 +1,8 @@
 package com.drdlx.sceneform_ar_compose.arScreen
 
-data class ArScreenUiState(val test: String = "")
+import androidx.lifecycle.LiveData
+import com.google.ar.sceneform.ux.ArFrontFacingFragment
+
+data class ArScreenUiState(
+    val arFragment: LiveData<ArFrontFacingFragment>,
+)

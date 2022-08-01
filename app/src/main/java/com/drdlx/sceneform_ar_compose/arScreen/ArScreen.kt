@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -23,9 +24,12 @@ import com.google.ar.sceneform.ux.ArFrontFacingFragment
 @Composable
 fun ArScreen(
     supportManager: FragmentManager,
-    arFragment: ArFrontFacingFragment,
+    uiState: ArScreenUiState,
 ) {
     val context = LocalContext.current
+
+    val arFragment = uiState.arFragment.observeAsState()
+
     Permission(
         Manifest.permission.CAMERA,
         rationale = "camera needed",
@@ -43,9 +47,11 @@ fun ArScreen(
             }
         }
     ) {
+        arFragment.value?.let {
         CameraPreview(
             supportFragmentManager = supportManager,
-            arFragment = arFragment
+            arFragment = it,
         )
+        }
     }
 }

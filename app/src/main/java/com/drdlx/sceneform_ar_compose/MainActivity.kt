@@ -10,7 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LiveData
 import com.drdlx.sceneform_ar_compose.arScreen.ArScreen
+import com.drdlx.sceneform_ar_compose.arScreen.ArScreenUiState
+import com.drdlx.sceneform_ar_compose.arScreen.ArScreenViewModel
 import com.drdlx.sceneform_ar_compose.ui.theme.MyApplicationTheme
 import com.google.ar.sceneform.ux.ArFrontFacingFragment
 
@@ -27,7 +30,13 @@ class MainActivity : FragmentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    ArScreen(supportManager = fragmentManager, arFragment = ArFrontFacingFragment())
+                    val arScreenViewModel = ArScreenViewModel()
+                    val arScreenFragment = ArFrontFacingFragment()
+                    arScreenViewModel.setFragment(arScreenFragment)
+                    ArScreen(
+                        supportManager = fragmentManager,
+                        uiState = arScreenViewModel.uiState
+                    )
                 }
             }
         }
